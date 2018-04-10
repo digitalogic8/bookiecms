@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect
 
 from django.template import loader
 from django.contrib.auth import logout
@@ -20,8 +21,13 @@ def loginUser(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        user.g
-        return HttpResponse("You are logged in.")
+        userGroups = []
+        for group in user.groups.all():
+            userGroups.append(group.name)
+        if "bookie" in userGroups:
+            return redirect('/bookie', request)
+        else:
+            return redirect('/better', request)
     else:
         return HttpResponse("You are NOT logged in.")
 def logout_view(request):
