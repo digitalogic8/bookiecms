@@ -1,12 +1,10 @@
 version: '2'
 services:
   db:
-    image: postgres
+    image: 923516984695.dkr.ecr.us-east-1.amazonaws.com/postgres:latest
   web:
-    build: .
+    image: 923516984695.dkr.ecr.us-east-1.amazonaws.com/chillbet:latest
     command: python3 manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
     ports:
       - "8000:8000"
     depends_on:
