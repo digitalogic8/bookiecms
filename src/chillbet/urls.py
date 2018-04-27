@@ -25,6 +25,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('login/', views.loginPage, name='login'),
     path('loginuser/', views.loginUser, name='loginUser'),
+    path('builddata/', views.buildData, name='buildData'),
     #url(r'^login/$', auth_views.login, {'template_name': 'core/login.html'}, name='login'),
     #path('logout/', auth_views.logout, name='logout'),
     path('admin/', admin.site.urls),

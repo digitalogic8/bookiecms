@@ -6,11 +6,27 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.contrib.auth import logout
 
+import csv
+import os
+from util import buildTeams
+
 def index(request):
-     if request.user.is_authenticated:
-         return HttpResponse("Hello, you. You're at the bookie index.")
-     else:
+
+    
+    userGroups = []
+    if not request.user.is_authenticated:
         return loginPage(request) 
+    user = request.user
+    for group in user.groups.all():
+        userGroups.append(group.name)
+    if "bookie" in userGroups:
+        return redirect('/bookie', request)
+    else:
+        return redirect('/better', request)
+def buildData(request):
+    buildTeams.buildTeams()
+    buildTeams.buildGames()
+    return HttpResponse("Data Built.")
 def loginPage(request):
     template = loader.get_template('registration/login.html')
     context = {}

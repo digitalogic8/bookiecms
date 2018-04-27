@@ -2,47 +2,61 @@ from django.db import models
 
 
 class Team(models.Model):
-    NCAAF = "NCAAF"
-    NCAABB = "NCAABB"
-    NCAAM = "NCAAM"
-    NCAAW = "NCAAW"
-    SPORTS = (
-        (NCAAF, 'NCAA Football'),
-        (NCAABB, 'NCAA Baseball'),
-        (NCAAM, 'NCAA Mens Basketball'),
-        (NCAAW, 'NCAA Womens Basketball'),
-    )
-    teamName = models.CharField(max_length=200)
-    sport = models.CharField(
+     NCAAF = "NCAAF"
+     NCAABB = "NCAABB"
+     NCAAM = "NCAAM"
+     NCAAW = "NCAAW"
+     MLB = "MLB"
+     SPORTS = (
+         (NCAAF, 'NCAA Football'),
+         (NCAABB, 'NCAA Baseball'),
+         (NCAAM, 'NCAA Mens Basketball'),
+         (NCAAW, 'NCAA Womens Basketball'),
+        (MLB, "Major League Baseball")
+     )  
+     teamName = models.CharField(max_length=200)
+     teamAbbreviation = models.CharField(max_length=10, default="XXX")
+     sport = models.CharField(
         max_length=100,
         choices=SPORTS,
-        default=NCAAF,
-    )
-    teamPhoto = models.URLField()
-    def __str__(self):
+        default=MLB,
+     )
+     teamLogo = models.CharField(max_length=200, default="XXX")
+     def __str__(self):
         return self.teamName
+
 class Contest(models.Model):
     homeTeam = models.ForeignKey(Team, related_name='homeTeam', on_delete=models.CASCADE)
     awayTeam = models.ForeignKey(Team, related_name='awayTeam', on_delete=models.CASCADE)
-    overUnder = models.FloatField()
-    line = models.FloatField()
-    contestPhoto = models.URLField()
     contest_date = models.DateTimeField('Date Of Contest')
     def __str__(self):
         return str(self.homeTeam) + " vs " + str(self.awayTeam)
 class AvailableBets(models.Model):
-    contest = models.ForeignKey(Contest, related_name='bet', on_delete=models.CASCADE)
     BETTYPES = (
-        ("O/U", 'Over Under'),
-        ("line", 'Bet on the line'),
-        ("moneyline", "moneyline bet")
+        ("spread", 'Bet on the line'),
+        ("moneyline", "moneyline bet"),
+        ("total", "runline bet")
         
     )
-    teamName = models.CharField(max_length=200)
-    sport = models.CharField(
+    OUnder = (
+        ("under", 'total score will score over this many points'),
+        ("over", "total score will be under this many points"),
+        ("na", "na")
+        
+    )
+    contest = models.ForeignKey(Contest, related_name='availableBet', on_delete=models.CASCADE)
+    odds = models.FloatField(default=0.0)
+    spread = models.FloatField(default=0.0)
+    overorunder = models.CharField(
+        max_length=10,
+        choices=OUnder,
+        default="na",
+    )
+    team = models.ForeignKey(Team, related_name='team', on_delete=models.CASCADE, null=True)
+    bettype = models.CharField(
         max_length=100,
         choices=BETTYPES,
-        default="straight",
+        default="spread",
     )
 class Bet(models.Model):
     timestamp = models.DateTimeField('Date Of Contest')
@@ -52,6 +66,8 @@ class Bet(models.Model):
     amountOfBet = models.FloatField()
     approved = models.BooleanField()
     outcome = models.CharField(max_length=1)  
+    
+
 
     
     

@@ -25,7 +25,7 @@ SECRET_KEY = '7_=i-*y8(s1#inb(72+vz58)@w&jo(^h%k8piypsi_n$w3d8ed'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,12 +81,30 @@ WSGI_APPLICATION = 'chillbet.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+#when you are ready to maintain multisettings files
+# So I've been reading the book Two Scoops of Django and the whole chapter 5 is based upon this issue. This chapter, Settings and Requirement Files, answers all of my questions. This chapter is based upon Jacob Kaplan-Moss' The Best (and worst) of Django talk at OSCON 2011. See page 47 and onwards of the slide.
+# 
+# Basically, the idea is to use multiple settings files i.e., settings/base.py, settings/local.py, settings/production.py etc. And to use the proper one while launching the server using the --settings switch.
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'HOST': 'db',
+#         'PORT': 5432,
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
+        'NAME': 'chillbetstaging',
+        'USER': 'digitalogic8',
+        'PASSWORD': 'f00cbed7',
+        'HOST': 'chillbetstaging.cklue0p1bwkd.us-east-1.rds.amazonaws.com',
         'PORT': 5432,
     }
 }
