@@ -102,20 +102,24 @@ def buildGames(sport="MLB"):
             else:
                 print (" game exists")
             contest = Contest.objects.get(homeTeam = homeTeam, awayTeam = awayTeam, contest_date=gametime)
+            
             for betType in gameData["odds"]:
                 bettype = betType["type"]
+                
                 if bettype == "MONEYLINE":
-
+                    AvailableBets.objects.filter(contest=contest, bettype="moneyline").delete()
                     availBet = AvailableBets(contest=contest, bettype="moneyline", odds=betType[homeTeam.teamAbbreviation]["odds"], team=homeTeam)
                     availBet.save()
                     availBet2 = AvailableBets(contest=contest, bettype="moneyline", odds=betType[awayTeam.teamAbbreviation]["odds"], team=awayTeam)
                     availBet2.save()
                 if bettype == "SPREAD":
+                    AvailableBets.objects.filter(contest=contest, bettype="spread").delete()
                     availBet = AvailableBets(contest=contest, bettype="spread", odds=betType[homeTeam.teamAbbreviation]["odds"],spread=betType[homeTeam.teamAbbreviation]["spread"], team=homeTeam)
                     availBet.save()
                     availBet2 = AvailableBets(contest=contest, bettype="spread", odds=betType[awayTeam.teamAbbreviation]["odds"],spread=betType[awayTeam.teamAbbreviation]["spread"], team=awayTeam)
                     availBet2.save()
                 if bettype == "TOTAL":
+                    AvailableBets.objects.filter(contest=contest, bettype="total").delete()
                     availBet = AvailableBets(contest=contest, bettype="total", odds=betType["over"]["odds"], spread=betType["over"]["over"][:-1], overorunder="over", team=homeTeam)
                     availBet.save()
                     availBet2 = AvailableBets(contest=contest, bettype="total", odds=betType["under"]["odds"], spread=betType["under"]["under"][:-1], overorunder="under", team=awayTeam)

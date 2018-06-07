@@ -9,6 +9,8 @@
 
 <!-- Bootstrap -->
 <link rel="stylesheet" type="text/css" href="{% static 'better/css/bootstrap.css' %}" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
+ 
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -111,37 +113,56 @@
     <a class="nav-link" href="#">NFL</a>
   </li>
 </ul>
-<div class="container">
-  <div class="row text-center">
-    {% for contest in contests %}
-    <div class="col-sm-4 col-md-4 col-lg-4 col-xs-6">
-      <div class="thumbnail"> <img src="{% static contest.contest.homeTeam.teamLogo %}" alt="Thumbnail Image 1" class="img-responsive"><img src="{% static contest.contest.awayTeam.teamLogo %}" alt="Thumbnail Image 1" class="img-responsive">
-        <div class="caption"> 
-          <h3>{{ contest.contest }}</h3>
+
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th scope="col">Home</th>
+      <th scope="col">Away</th>
+      <th scope="col">Date</th>
+      <th scope="col">moneyline</th>
+      <th scope="col">o/u</th>
+      <th scope="col">spread</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for contest in contests %}
+    <tr>
+      <td>{{ contest.contest.homeTeam }}  <img src="{% static contest.contest.homeTeam.teamLogo %}" alt="Thumbnail Image 1" class="img-responsive"></td>
+      <td>{{ contest.contest.awayTeam }}  <img src="{% static contest.contest.awayTeam.teamLogo %}" alt="Thumbnail Image 1" class="img-responsive"></td>
+      <td>{{ contest.contest.contest_date }} </td>
+          <td> <table class="table table-sm">
+  <tbody>
           {% for bet in contest.availableBets %}
-          {% if bet.bettype == "TOTAL" %}
-          <p>Line: {{ bet.spread }} O/U: {{ bet.odds }}</p>
-          <p><a href="#" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Place Bet</a></p>
+          {% if bet.bettype == "moneyline" %}
+          <tr><td>{{bet.team.teamAbbreviation}}</td><td>{{ bet.odds }}</td></tr>
           {% endif %}
           {% endfor %}
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  <nav class="text-center">
-    <!-- Add class .pagination-lg for larger blocks or .pagination-sm for smaller blocks-->
-    <ul class="pagination">
-      <li> <a href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>
-      <li class="active"><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li class="disabled"><a href="#">5</a></li>
-      <li> <a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>
-    </ul>
-  </nav>
-</div>
+          <tbody></table></td>
+          
+          <td> <table class="table table-sm">
+          <tbody>
+          {% for bet in contest.availableBets %}
+          {% if bet.bettype == "spread" %}
+          <tr><td>{{bet.team.teamAbbreviation}}</td><td>{{ bet.odds }}</td><td>{{ bet.spread }}</td></tr>
+          {% endif %}
+          {% endfor %}
+          <tbody></table></td>
+          
+          <td> <table class="table table-sm">
+          <tbody>
+          {% for bet in contest.availableBets %}
+          {% if bet.bettype == "total" %}
+          <tr><td>{{bet.team.teamAbbreviation}}</td><td>{{ bet.odds }}</td><td>{{ bet.spread }}</td></tr>
+          {% endif %}
+          {% endfor %}
+          <tbody></table></td>
+          
+    </tr>
+   {% endfor %}
+  </tbody>
+</table>
+
 
 
 <hr>
@@ -165,14 +186,14 @@
       </div>
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-5"> 
         <address>
-        <strong>MyStoreFront, Inc.</strong><br>
-        Indian Treasure Link<br>
-        Quitman, WA, 99110-0219<br>
-        <abbr title="Phone">P:</abbr> (123) 456-7890
+        <strong>Chillbet, Inc.</strong><br>
+        www.chill.bet<br>
+        Boulder, CO 80301<br>
+        <abbr title="Phone">P:</abbr> (205) 822-2222
       </address>
         <address>
-        <strong>Full Name</strong><br>
-        <a href="mailto:#">first.last@example.com</a>
+        <strong>Web Dev </strong><br>
+        <a href="mailto:#">web.dev@chill.bet</a>
         </address>
         </div>
     </div>
@@ -189,7 +210,17 @@
 </footer>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
 <script src="{% static 'better/js/jquery-1.11.3.min.js' %}"></script> 
+
 <!-- Include all compiled plugins (below), or include individual files as needed --> 
 <script src="{% static 'better/js/bootstrap.js' %}"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
 </body>
 </html>
