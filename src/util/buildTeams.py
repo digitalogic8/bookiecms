@@ -124,6 +124,7 @@ def buildGames(sport="MLB"):
                     availBet.save()
                     availBet2 = AvailableBets(contest=contest, bettype="total", odds=betType["under"]["odds"], spread=betType["under"]["under"][:-1], overorunder="under", team=awayTeam)
                     availBet2.save()
+        
 def buildTeams():
     
     from better.models import Team
