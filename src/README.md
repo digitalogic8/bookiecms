@@ -4,6 +4,7 @@ a cms for bookies
 
 APIs
 Sports Lines for all sports
+Logos from http://www.sportslogos.net/
 
 -Users
 

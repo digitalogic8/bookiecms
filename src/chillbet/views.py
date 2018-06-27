@@ -8,7 +8,7 @@ from django.contrib.auth import logout
 
 import csv
 import os
-from util import buildTeams
+from util import buildTeams, GetMLBScores
 
 def index(request):
 
@@ -23,6 +23,9 @@ def index(request):
         return redirect('/bookie', request)
     else:
         return redirect('/better', request)
+def updatescores(request):
+    GetMLBScores.updateScores()
+    return HttpResponse("Data Built.")
 def buildData(request):
     buildTeams.buildTeams()
     buildTeams.buildGames()

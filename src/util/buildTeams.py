@@ -31,8 +31,8 @@ def scrapeOdds(sport):
             dateTime = gameDetails.find(class_='cover-CoversOdds-tableTime').string.strip()
             dateTime = ' '.join(dateTime.split())
             teams         = gameDetails.find_all(class_="cover-CoversOdds-details-Team")
-            team1= teams[0].find(class_="cover-CoversOdds-tableTeamLink").a.string.strip()
-            team2= teams[1].find(class_="cover-CoversOdds-tableTeamLink").a.string.strip()
+            team2= teams[0].find(class_="cover-CoversOdds-tableTeamLink").a.string.strip()
+            team1= teams[1].find(class_="cover-CoversOdds-tableTeamLink").a.string.strip()
             oddsRow = []
             for oddsBrick in tds[1:]:
                 oddBricki = oddsBrick.find_all('span')

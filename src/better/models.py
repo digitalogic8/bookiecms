@@ -26,9 +26,22 @@ class Team(models.Model):
         return self.teamName
 
 class Contest(models.Model):
+    PHASES = (
+        ("upcoming", 'This game is in the future'),
+        ("ongoing", "This game is currently being played"),
+        ("final", "this game is over")
+        
+    )
     homeTeam = models.ForeignKey(Team, related_name='homeTeam', on_delete=models.CASCADE)
     awayTeam = models.ForeignKey(Team, related_name='awayTeam', on_delete=models.CASCADE)
     contest_date = models.DateTimeField('Date Of Contest')
+    homeScore = models.IntegerField('Home Score', default=0)
+    awayScore = models.IntegerField('Away Score', default=0)
+    gamePhase = models.CharField(
+        max_length=100,
+        choices=PHASES,
+        default="upcoming",
+    )
     def __str__(self):
         return str(self.homeTeam) + " vs " + str(self.awayTeam)
 class AvailableBets(models.Model):
