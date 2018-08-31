@@ -2,6 +2,13 @@
 a cms for bookies
 
 
+From a call with phillip
+Agents are important 
+Line shading is important
+Every line possible is important
+Multi sport parlay is important
+Mobile is important 
+
 APIs
 Sports Lines for all sports
 Logos from http://www.sportslogos.net/

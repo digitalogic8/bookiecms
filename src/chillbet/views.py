@@ -1,14 +1,16 @@
-from django.shortcuts import render
+
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 
+
 from django.template import loader
 from django.contrib.auth import logout
 
-import csv
-import os
 from util import buildTeams, GetMLBScores
+from util.NFL import buildNFLTeams
+from util.ncaaf import buildncaafteams
+
 
 def index(request):
 
@@ -29,6 +31,10 @@ def updatescores(request):
 def buildData(request):
     buildTeams.buildTeams()
     buildTeams.buildGames()
+    buildNFLTeams.buildTeams()
+    buildNFLTeams.buildGames("NFL")
+    buildncaafteams.buildTeams()
+    buildncaafteams.buildGames("NCAAF")
     return HttpResponse("Data Built.")
 def loginPage(request):
     template = loader.get_template('registration/login.html')

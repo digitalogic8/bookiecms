@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from bookie.models import BookieProfile
 
 
 class Team(models.Model):
@@ -7,12 +9,14 @@ class Team(models.Model):
      NCAAM = "NCAAM"
      NCAAW = "NCAAW"
      MLB = "MLB"
+     NFL = "NFL"
      SPORTS = (
          (NCAAF, 'NCAA Football'),
          (NCAABB, 'NCAA Baseball'),
          (NCAAM, 'NCAA Mens Basketball'),
          (NCAAW, 'NCAA Womens Basketball'),
-        (MLB, "Major League Baseball")
+        (MLB, "Major League Baseball"),
+        (NFL, "National Football League")
      )  
      teamName = models.CharField(max_length=200)
      teamAbbreviation = models.CharField(max_length=10, default="XXX")
@@ -74,13 +78,17 @@ class AvailableBets(models.Model):
 class Bet(models.Model):
     timestamp = models.DateTimeField('Date Of Contest')
     numberOfBet =  models.ForeignKey(AvailableBets, related_name='betnumber', on_delete=models.CASCADE)
-    userMakingBet = models.CharField(max_length=200) 
+    userMakingBet = models.CharField(max_length=200) #why aren't we using the user module for thisand having a forigen key
     line = models.FloatField()
     amountOfBet = models.FloatField()
     approved = models.BooleanField()
     outcome = models.CharField(max_length=1)  
-    
 
+class BetterProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bookie =  models.ForeignKey(BookieProfile, related_name='Bookie', on_delete=models.CASCADE)
+    email =  models.EmailField()
+    
 
     
     

@@ -23,13 +23,16 @@ def updateScores():
             gamer["time"] = game.get("time")
             gameData.append(gamer)
         #does not account for double headers probably need to compare times
-        for contest in Contest.objects.filter(contest_date__date=yesterday):
-            print (contest)
-            for game in gameData:
-                if contest.homeTeam.teamAbbreviation == game["homeTeam"]:
-                    contest.homeScore = game["homeScore"]
-                    contest.awayScore = game["awayScore"]
-                    contest.save()
+        try:
+            for contest in Contest.objects.filter(contest_date__date=yesterday):
+                print (contest)
+                for game in gameData:
+                    if contest.homeTeam.teamAbbreviation == game["homeTeam"]:
+                        contest.homeScore = game["homeScore"]
+                        contest.awayScore = game["awayScore"]
+                        contest.save()
+        except:
+            pass
                     
 updateScores()
         
